@@ -2,6 +2,7 @@ import ParseRegExp as pre
 import NFANodeToDFANode as nfa2dfa
 import PaintDFA as pdfa
 import PaintNFA as pnfa
+import ToCode
 # from NFANode import NFANode
 
 if __name__=="__main__":
@@ -15,5 +16,5 @@ if __name__=="__main__":
 
     dfanode.minimize()
     pdfa.paintMinimize(dfanode)
-
+    ToCode.generateCode(dfanode,re)
 
