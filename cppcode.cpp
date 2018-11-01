@@ -4,12 +4,12 @@
 #include<string>
 using namespace std;
     
-    int table[2][2] = {{1, 2},{1, 1}};
-int maxState = 2;
-int cntValue = 2;
-char values[] = {  'a', 'b'  };
-string s= "a(a|b)*" ;
-int endStateList[] = { 1, 1, 1 };
+    int table[7][5] = {{1, 7, 7, 7, 7},{7, 2, 7, 7, 7},{7, 7, 3, 7, 7},{7, 7, 7, 4, 7},{4, 6, 7, 7, 7},{7, 7, 7, 7, 7},{7, 7, 7, 7, 6}};
+int maxState = 7;
+int cntValue = 5;
+char values[] = {  'a', 'b', 'c', 'd', 'f'  };
+string s= "abcd(a*bf)" ;
+int endStateList[] = { 6 };
 
     //根据二维转化数组和 values 和原本的字符串
 //去判断是否

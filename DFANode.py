@@ -1,10 +1,40 @@
 
-
+import functools
 #startSet为初态
 #endSetList用来表示哪些集合是终态
 #allSetList来存储所有的集合，只要出现就存储，但不能重复
 #startState和endState用了判断是初态还是终态
 #edgeDict是一个字典，key为 元组，value为边的值，其中 key的元组是两个集合对应的 字符串
+
+# 提供keys之间排序
+# 因为会出现一个混乱就是字符串：  {1}>{10}，所以写一个函数来提供排序方式
+# 如 [('{10, 11, 12, 13}', '{10, 11, 12, 13}'), ('{10, 11, 12, 13}', '{14}'), ('{1}', '{2, 3}')]
+def sortForKeys(tup1,tup2):
+        tup1_first=tup1[0]  # '{10, 11, 12, 13}'
+        tup2_first=tup2[0]  # '{1}'
+        str1= tup1_first.replace('{','').replace('}','').split(',')
+        str2= tup2_first.replace('{','').replace('}','').split(',')
+
+        # 把他们变成int，然后逐个数比较
+        int1 = list(map(lambda x:int(x),str1))
+        int2 = list(map(lambda x:int(x),str2))
+        minlen = min(len(str1),len(str2))
+
+        # 首先较小的那个排前面
+        # return -1 表示 tup1排tup2前面
+        for i in range(minlen):
+            if int1[i]<int2[i]:
+                return -1
+            elif int1[i]==int2[i]:
+                return 0
+            else:
+                return 1
+        if len(str1)<len(str2):
+            return -1
+        else:
+            return 1
+
+
 
 class DFANode(object):
 
@@ -53,16 +83,19 @@ class DFANode(object):
         set2int={}
         int2set=[]
 
-        #edgeDict为{('{1, 2, 4}', '{2, 3, 4}'): 'a', ('{2, 3, 4}', '{2, 3, 4}'): 'a'}
-
-        #遍历边，把每个集合 key0，key1 变成 数字，对应起来   set2int[str]=int   代表某个集合str化后，变成一个数字。
-        #得到： 已知集合的str，可得到代表这个集合的数字
-
-        #同时， int2set又把数字和集合对应起来
-        #得到： 已知某个数字，可得到对应的集合
+        # edgeDict为{('{1, 2, 4}', '{2, 3, 4}'): 'a', ('{2, 3, 4}', '{2, 3, 4}'): 'a'}
+        #
+        # 遍历边，把每个集合 key0，key1 变成 数字，对应起来   set2int[str]=int   代表某个集合str化后，变成一个数字。
+        # 得到： 已知集合的str，可得到代表这个集合的数字
+        #
+        # 同时， int2set又把数字和集合对应起来
+        # 得到： 已知某个数字，可得到对应的集合
         cnt=0
         keys=self.edgeDict.keys()
-        keys=sorted(keys)
+        keys=list(keys)
+        print(type(keys[0]))
+        keys=sorted(keys,key=functools.cmp_to_key(sortForKeys))
+        print('keys为:',keys)
         for key in keys:
             value=self.edgeDict[key]
             key0,key1=key[0],key[1]
@@ -105,6 +138,11 @@ class DFANode(object):
         #
         # print('equalList 等价数组为：',equalList)
 
+        # 仍未修复的bug，如果最小化后只有6个点，但序号有0-6 7个数字的bug
+        # 如果 最小化后的点数为 6，而原本的长度为7，则应该出现的最大数字为 7-重复的-1
+        # 所以如果碰到 本来是序号为8的，且没有最小化，就应该把他党委 max_num, 然后max_num++
+
+
 
         #最后得到 equallist，这个equallist下标代表某个集合，内容代表这个集合转化成哪一个
 
@@ -127,6 +165,8 @@ class DFANode(object):
         self.miniEndStateList=endStateList
         # print('最小化后：终态有',endStateList)
 
+
+        print('equalist为:',equalList)
         #最小化后的初态，就是  初态的集合变成int，然后看看它与哪个最小的状态相等，或是它自己
         self.miniStartState= equalList[set2int[str(self.startSet)]]
         print('最小化后为',newTupList)
@@ -165,6 +205,7 @@ class DFANode(object):
             if oneToset != twoToSet:
                 return False
         return True
+
 
 
 

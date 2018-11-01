@@ -1,13 +1,15 @@
 digraph mini {
 	rankdir=LR size=4.5
 	node [shape=doublecircle]
-	1
-	1
-	1
+	6
 	node [shape=circle]
 	0 -> 1 [label=a]
-	1 -> 1 [label=a]
-	1 -> 1 [label=b]
+	1 -> 2 [label=b]
+	2 -> 3 [label=c]
+	3 -> 4 [label=d]
+	4 -> 4 [label=a]
+	4 -> 6 [label=b]
+	6 -> 6 [label=f]
 	node [style=invis]
 	-1
 	-1 -> 0
