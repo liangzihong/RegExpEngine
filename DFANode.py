@@ -138,9 +138,11 @@ class DFANode(object):
         #
         # print('equalList 等价数组为：',equalList)
 
+
         # 仍未修复的bug，如果最小化后只有6个点，但序号有0-6 7个数字的bug
-        # 如果 最小化后的点数为 6，而原本的长度为7，则应该出现的最大数字为 7-重复的-1
-        # 所以如果碰到 本来是序号为8的，且没有最小化，就应该把他党委 max_num, 然后max_num++
+        # 要对 equallist进行进一步处理
+
+
 
 
 
