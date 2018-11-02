@@ -7,7 +7,7 @@ import ToCode
 
 if __name__=="__main__":
 
-    re="abcd(a*bf)"
+    re="abcd(a*b)"
     nfanode= pre.parseReToNFANode(re)
     dfanode=nfa2dfa.FromNFAToDFA(nfanode)
 

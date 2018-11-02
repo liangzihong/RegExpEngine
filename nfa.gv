@@ -1,7 +1,7 @@
 digraph nfa {
 	rankdir=LR size=4.5
 	node [shape=doublecircle]
-	16
+	14
 	node [shape=circle]
 	1 -> 2 [label=a]
 	2 -> 3 [label="ε"]
@@ -18,8 +18,6 @@ digraph nfa {
 	11 -> 12 [label="ε"]
 	12 -> 13 [label="ε"]
 	13 -> 14 [label=b]
-	14 -> 15 [label="ε"]
-	15 -> 16 [label=f]
 	node [style=invis]
 	0
 	0 -> 1

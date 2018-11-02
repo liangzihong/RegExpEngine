@@ -142,8 +142,19 @@ class DFANode(object):
         # 仍未修复的bug，如果最小化后只有6个点，但序号有0-6 7个数字的bug
         # 要对 equallist进行进一步处理
 
-
-
+        # 修复了 最小化后 序号可能大于圈数的现象
+        # 对 equallist进行处理，把 0 1 2 3 4 4 6 变成 0 1 2 3 4 4 5即可
+        # 只需遍历一遍，如果 本来应该序号为i，但是由于可能与前一个合并，所以 本来的序号只能搁浅给下一个
+        # 所以 i==equallist[i] and shouldbe<=i时，equallist【i】赋值为shouldbe，shouldbe++
+        # 如果 i！=equallist[i] 说明与前面合并，又以防与之合并的序号改了，所以 equallist[i]= equallist [ equallist[i] ]找到与它合并的变成的东西
+        shouldbe=0
+        for i in range(len(equalList)):
+            if equalList[i]==i:
+                if shouldbe<=i:
+                    equalList[i]=shouldbe
+                    shouldbe=shouldbe+1
+            else:
+                equalList[i]=equalList[ equalList[i]]
 
 
         #最后得到 equallist，这个equallist下标代表某个集合，内容代表这个集合转化成哪一个
